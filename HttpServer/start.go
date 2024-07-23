@@ -60,21 +60,21 @@ func parseJSONToHeaders(jsonStr string) (map[string][]string, error) {
 }
 
 func isAllowedDomain(host string, allowedDomains []string) bool {
-	host, _, err := net.SplitHostPort(host)
+	hostname, _, err := net.SplitHostPort(host)
 	if err != nil {
 		// 如果没有端口信息，直接使用 host
-
+		hostname = host
 	}
 	for _, domain := range allowedDomains {
 		// 如果是通配符域名
 		if strings.HasPrefix(domain, ".") {
 			// 去掉通配符部分，只检查主域名是否匹配
-			if strings.HasSuffix(host, domain[1:]) {
+			if strings.HasSuffix(hostname, domain[1:]) {
 				return true
 			}
 		} else {
 			// 完全匹配检查
-			if host == domain {
+			if hostname == domain {
 				return true
 			}
 		}
