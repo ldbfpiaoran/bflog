@@ -1,0 +1,26 @@
+database:
+  host: localhost
+  port: 3306
+  dbname: sectool
+  username: root
+  password: 123456
+redispass: 123456
+nginx: 1
+sqldebug: 0
+#httpport: :8888
+#listendomain: .bfpiaoran.cn,.bftest.com
+#adminport: :5000
+dev: 0
+server:
+  #  这里配置要查询的子域名
+  default_ip: 121.199.45.205
+  subdomain: bfpiaoran.cn.
+  admin_port: 5000
+  http_port: 8080
+  listen_domain: .bfpiaoran.cn
+  admin_domain: http://admin.cuijianxiong.top:8000
+  seckey: "jwt_key"
+  ssl:
+    enabled: false
+    cert_file: ""
+    key_file: ""
