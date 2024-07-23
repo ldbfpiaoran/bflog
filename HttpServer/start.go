@@ -63,7 +63,7 @@ func isAllowedDomain(host string, allowedDomains []string) bool {
 	host, _, err := net.SplitHostPort(host)
 	if err != nil {
 		// 如果没有端口信息，直接使用 host
-		host = host
+
 	}
 	for _, domain := range allowedDomains {
 		// 如果是通配符域名
@@ -93,7 +93,7 @@ func httpStatusCode(code string) (int, error) {
 func logRequestHandler(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	hostname := r.Host
-	allowedDomains := strings.Split(config.GetBase().ListenDomain, ",")
+	allowedDomains := strings.Split(config.GetBase().Server.ListenDomain, ",")
 	if !isAllowedDomain(hostname, allowedDomains) {
 		http.Error(w, "Forbidden", http.StatusForbidden)
 		return
@@ -111,6 +111,14 @@ func logRequestHandler(w http.ResponseWriter, r *http.Request) {
 	headerJSON, _ := formatHeadersToJSON(r.Header)
 	if config.GetBase().Nginx == 1 {
 		remoteAddr = strings.Split(r.Header.Get("X-Real-Ip"), ",")[0]
+	}
+	if remoteAddr == "-" {
+		http.Error(w, "Cannot read request body", http.StatusInternalServerError)
+		return
+	}
+	if remoteAddr == "" {
+		http.Error(w, "Cannot read request body", http.StatusInternalServerError)
+		return
 	}
 	httpRequestLog := db.HttpRequestLog{
 		Hostname:   hostname,

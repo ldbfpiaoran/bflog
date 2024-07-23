@@ -4,11 +4,34 @@ import (
 	"bflog/config"
 	"bflog/db"
 	"fmt"
-	"github.com/sirupsen/logrus"
 	"log"
-
-	"golang.org/x/crypto/bcrypt"
+	"net"
+	"strings"
 )
+
+func isAllowedDomain(host string, allowedDomains []string) bool {
+	host, _, err := net.SplitHostPort(host)
+	if err != nil {
+		// 如果没有端口信息，直接使用 host
+
+	}
+	fmt.Println(host)
+	for _, domain := range allowedDomains {
+		// 如果是通配符域名
+		if strings.HasPrefix(domain, ".") {
+			// 去掉通配符部分，只检查主域名是否匹配
+			if strings.HasSuffix(host, domain[1:]) {
+				return true
+			}
+		} else {
+			// 完全匹配检查
+			if host == domain {
+				return true
+			}
+		}
+	}
+	return false
+}
 
 func main() {
 	// 初始化数据库连接
@@ -18,30 +41,7 @@ func main() {
 	}
 	// 创建一个用户
 	db.InitDB()
-	username := "admin"
-
-	password := "123456" // 更复杂的密码
-
-	// 密码加密
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		fmt.Printf("Failed to generate hashed password: %v\n", err)
-		return
-	}
-	logrus.Info(string(hashedPassword))
-
-	// 构造用户对象
-	user := db.User{
-		Username: username,
-		Password: string(hashedPassword),
-	}
-	//
-	//// 插入用户到数据库
-	err = db.GetDB().InsertUser(user)
-	if err != nil {
-		fmt.Printf("Failed to insert user into database: %v\n", err)
-		return
-	}
-	//
-	fmt.Println("User inserted successfully:", username)
+	fmt.Println(config.GetBase().Server.ListenDomain)
+	allowedDomains := strings.Split(config.GetBase().Server.ListenDomain, ",")
+	fmt.Println(!isAllowedDomain("360mrpc.0756nanke.com", allowedDomains))
 }

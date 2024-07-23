@@ -10,11 +10,11 @@ import (
 var baseConfig *Config
 
 type Config struct {
-	Nginx        int    `json:"nginx"`
-	Redispass    string `mapstructure:"redispass"`
-	ListenDomain string `mapstructure:"listendomain"`
-	Dev          int    `mapstructure:"dev"`
-	Database     struct {
+	Nginx     int    `json:"nginx"`
+	Redispass string `mapstructure:"redispass"`
+
+	Dev      int `mapstructure:"dev"`
+	Database struct {
 		Username string `mapstructure:"username"`
 		Password string `mapstructure:"password"`
 		Host     string `mapstructure:"host"`
@@ -22,13 +22,14 @@ type Config struct {
 		DBName   string `mapstructure:"dbname"`
 	} `mapstructure:"database"`
 	Server struct {
-		Defaultip   string `mapstructure:"default_ip"`
-		Subdomain   string `mapstructure:"subdomain"`
-		Port        string `mapstructure:"http_port"`
-		Admindomain string `mapstructure:"admin_domain"`
-		Adminport   string `mapstructure:"admin_port"`
-		Seckey      string `mapstructure:"seckey"`
-		SSL         struct {
+		ListenDomain string `mapstructure:"listen_domain"`
+		Defaultip    string `mapstructure:"default_ip"`
+		Subdomain    string `mapstructure:"subdomain"`
+		Port         string `mapstructure:"http_port"`
+		Admindomain  string `mapstructure:"admin_domain"`
+		Adminport    string `mapstructure:"admin_port"`
+		Seckey       string `mapstructure:"seckey"`
+		SSL          struct {
 			Enabled  bool `mapstructure:"enabled"`
 			CertFile bool `mapstructure:"cert_file"`
 			KeyFile  bool `mapstructure:"key_file"`
