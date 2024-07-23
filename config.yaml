@@ -3,7 +3,7 @@ database:
   port: 3306
   dbname: sectool
   username: root
-  password: lbdf9402
+  password: 123456
 redispass: 123456
 nginx: 1
 sqldebug: 0
