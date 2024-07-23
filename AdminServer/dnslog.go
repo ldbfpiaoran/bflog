@@ -132,3 +132,14 @@ func deleteDnsLogsByname(w http.ResponseWriter, r *http.Request) {
 
 	sendJSONResponse(w, 0, "success", nil)
 }
+
+func deleteAllDnsLogs(w http.ResponseWriter, r *http.Request) {
+	if !handleAuth(w, r) {
+		return
+	}
+	if err := db.GetDB().DeleteAllDnsLogs(); err != nil {
+		sendJSONResponse(w, 1, "Failed to delete all DNS logs", nil)
+		return
+	}
+	sendJSONResponse(w, 0, "success", nil)
+}

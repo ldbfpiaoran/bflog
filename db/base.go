@@ -367,3 +367,11 @@ func (client *DBClient) adddnsrule(rule DnsRule) error {
 func (client *DBClient) deletednsrule(id int) error {
 	return client.Client.Delete(&DnsRule{}, "id = ?", id).Error
 }
+
+func (client *DBClient) DeleteAllHttpLogs() interface{} {
+	return client.Client.Unscoped().Delete(&HttpRequestLog{}).Error
+}
+
+func (client *DBClient) DeleteAllDnsLogs() interface{} {
+	return client.Client.Unscoped().Delete(&Dnslog{}).Error
+}

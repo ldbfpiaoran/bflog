@@ -87,6 +87,8 @@ func setupRoutes() {
 	mux.HandleFunc("/api/adddnsrule", adddnsrule)
 	mux.HandleFunc("/api/updatednsrule", updateDnsRule)
 	mux.HandleFunc("/api/deldnsrulebyid", deleteDnsRule)
+	mux.HandleFunc("/api/delallhttp", deleteAllHttpLogs)
+	mux.HandleFunc("/api/delalldns", deleteAllDnsLogs)
 	port := ":" + config.GetBase().Server.Adminport
 
 	// 设置 CORS 中间件

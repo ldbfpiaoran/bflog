@@ -112,3 +112,15 @@ func deleteHttpLogsByIds(w http.ResponseWriter, r *http.Request) {
 
 	sendJSONResponse(w, 0, "success", nil)
 }
+
+func deleteAllHttpLogs(w http.ResponseWriter, r *http.Request) {
+	if !handleAuth(w, r) { // 添加 CORS 头部，并检查授权
+		return
+	}
+	if err := db.GetDB().DeleteAllHttpLogs(); err != nil {
+		sendJSONResponse(w, 1, "删除logs失败", nil)
+		//http.Error(w, "Failed to delete DNS logs", http.StatusInternalServerError)
+		return
+	}
+	sendJSONResponse(w, 0, "success", nil)
+}
